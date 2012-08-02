@@ -1,0 +1,38 @@
+{# Contains Underscore templates for the file uploader. #}
+{# As long as the data-* attributes stay on the appropriate elements #}
+{# you can override the markup pretty extensively in a local version #}
+{# of this file. #}
+
+{# Include this file once in the page. You can instantiate many file uploaders. #}
+{# Each one must receive a distinct uploadUrl option. You can also pass #}
+{# an existingFiles option with a list of filenames that should appear in the #}
+{# editor as having been previously uploaded. #}
+
+{# "Why is this a Twig file?" Twig allows for a mix of comments not seen in the browser #}
+{# and Underscore templates. It's easy to include in a Symfony template. #}
+
+<script type="text/template" id="file-uploader-template">
+  {# No name attribute please, that would cause it to submit with a regular form #}
+  <input type="file" data-files="1" multiple />
+  <ul class="thumbnails" data-thumbnails="1">
+      {# We populate the list via an API call #}
+  </ul>
+</script>
+
+{# parameters to underscore template: name, thumbnail_url, original_url #}
+<script type="text/template" id="file-uploader-file-template">
+    <li data-name="<%- name %>" class="thumbnail">
+        {# Some things can be thumbnailed, some things not #}
+        {# ACHTUNG: regular expression literals fail in Underscore templates #}
+        <% if (url.match(new RegExp('(\.gif|\.jpg|\.jpeg|\.png)$', 'i'))) { %>
+            <img src="<%- thumbnail_url %>" class="thumbnail-image" />
+        <% } %>
+        <div class="caption">
+            <span class="filename"><%- name %></span>
+            <a rel="tooltip" title="Download Original" class="download thumbnail-action btn=" target="download" href="<%- url %>"><i class="icon-download"></i></a>
+            {# ACHTUNG: data-action="delete" matters to javascript #}
+            <a rel="tooltip" title="Delete" data-action="delete" class="delete thumbnail-action btn" href="#delete"><i class="icon-trash"></i></a>
+        </div>
+    </li>
+</script>
+

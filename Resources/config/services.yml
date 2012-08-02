@@ -1,0 +1,75 @@
+parameters:
+  file_uploader.file_base_path: "%kernel.root_dir%/../web/uploads"
+  file_uploader.web_base_path: "/uploads"
+  file_uploader.allowed_extensions:
+    # Mime types are just for documentation's sake. 
+    # BlueImp filters by supplied extension. No checking of the
+    # actual file contents is done. If your mime types are 
+    # configured correctly in Apache the browser will have the
+    # correct expectations for each file
+    - gif #image/gif
+    - png #image/png
+    - jpg #image/jpeg
+    - jpeg #image/jpeg
+    - pdf #application/pdf
+    - mp3 #audio/mpeg
+    - xls #application/vnd.ms-excel
+    - ppt #application/vnd.ms-powerpoint
+    - doc #application/msword
+    - pptx #application/vnd.openxmlformats-officedocument.presentationml.presentation
+    - sldx #application/vnd.openxmlformats-officedocument.presentationml.slide
+    - ppsx #application/vnd.openxmlformats-officedocument.presentationml.slideshow
+    - potx #application/vnd.openxmlformats-officedocument.presentationml.template
+    - xlsx #application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+    - xltx #application/vnd.openxmlformats-officedocument.spreadsheetml.template
+    - docx #application/vnd.openxmlformats-officedocument.wordprocessingml.document
+    - dotx #application/vnd.openxmlformats-officedocument.wordprocessingml.template
+    - txt #text/plain
+    - rtf #text/rtf
+
+  # Folder where originals are uploaded. This is the only folder populated for
+  # uploads that are not images
+  file_uploader.originals:
+      folder: originals
+
+  # Scaled versions of images. These image sizes are pretty great for 
+  # 1140 grid / responsive / bootstrap projects, but you can override as you see fit
+  #
+  # Width and height here are maximums to be enforced, NOT an aspect ratio to be enforced.
+  # UploadHandler renders the smallest size that doesn't violate one of the limits. 
+  #
+  # If an original is too small it is simply copied for that particular size. In short,
+  # BlueImp did a good job here.
+  #
+  # You need not specify any sizes if you don't want FileUploader to scale images for you
+  file_uploader.sizes:
+    thumbnail:
+      folder: thumbnails
+      max_width: 80
+      max_height: 80
+    small:
+      folder: small
+      max_width: 320
+      max_height: 480
+    medium:
+      folder: medium
+      max_width: 640
+      max_height: 960
+    large:
+      folder: large
+      max_width: 1140
+      max_height: 1140
+
+
+
+services:
+    punk_ave.file_uploader:
+        class: PunkAve\FileUploaderBundle\Services\FileUploader
+        arguments:
+          - file_base_path: '%file_uploader.file_base_path%'
+            web_base_path: '%file_uploader.web_base_path%'
+            request: '@request'
+            allowed_extensions: '%file_uploader.allowed_extensions%'
+            sizes: '%file_uploader.sizes%'
+            originals: '%file_uploader.originals%'
+        scope: request
