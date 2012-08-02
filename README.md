@@ -105,9 +105,9 @@ In Your Layout
 To make the necessary JavaScript available via Assetic (note that you must supply jQuery, jQuery UI and Underscore):
 
     {% javascripts 
-        '@DukeListBundle/Resources/public/js/jquery-1.7.2.min.js'
-        '@DukeListBundle/Resources/public/js/jquery-ui-1.8.22.custom.min.js'
-        '@DukeListBundle/Resources/public/js/underscore-min.js'
+        '@MyBundle/Resources/public/js/jquery-1.7.2.min.js'
+        '@MyBundle/Resources/public/js/jquery-ui-1.8.22.custom.min.js'
+        '@MyBundle/Resources/public/js/underscore-min.js'
         '@PunkAveFileUploaderBundle/BlueImp/js/jquery.fileupload.js'
         '@PunkAveFileUploaderBundle/Resources/public/js/FileUploader.js' %}
         <script src="{{ asset_url }}"></script>
