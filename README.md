@@ -108,7 +108,7 @@ To make the necessary JavaScript available via Assetic (note that you must suppl
         '@MyBundle/Resources/public/js/jquery-1.7.2.min.js'
         '@MyBundle/Resources/public/js/jquery-ui-1.8.22.custom.min.js'
         '@MyBundle/Resources/public/js/underscore-min.js'
-        '@PunkAveFileUploaderBundle/BlueImp/js/jquery.fileupload.js'
+        '@PunkAveFileUploaderBundle/Resources/public/js/jquery.fileupload.js'
         '@PunkAveFileUploaderBundle/Resources/public/js/FileUploader.js' %}
         <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
@@ -148,11 +148,32 @@ Let's assume there is an edit.html.twig template associated with the edit action
             'uploadUrl': {{ path('upload', { editId: editId }) | json_encode | raw }},
             'viewUrl': {{ '/uploads/tmp/attachments/' ~ editId | json_encode | raw }},
             'el': '.file-uploader',
-            'existingFiles': {{ existingFiles | json_encode | raw }}
+            'existingFiles': {{ existingFiles | json_encode | raw }},
+            'delaySubmitWhileUploading': '.edit-form'
         });
     });
     </script>
     {% endblock %}
+
+Progress Display
+================
+
+There is a simple spinner in template.html.twig. If you choose to provide your own Underscore templates you can replace it. Just make sure you have your own element with a data-spinner="1" attribute.
+
+If you are using template.html.twig, note that you must publish your assets in the usual way for the spinner image to be available:
+
+    php app/console assets:install web/
+
+As an alternative, you can write your own code on an interval timer that checks whether the `uploading` property of the PunkAveFileUploader object is currently set to true and display a spinner on that basis.
+
+Delaying Form Submission Until Uploads Complete
+===============================================
+
+It's not a good idea to let the user submit a form that the file uploader is meant to be part of if uploads are still in progress. You can easily block this by specifying the 'delaySubmitWhileUploading' option as shown above when creating the PunkAveFileUploader JavaScript object:
+
+    'delaySubmitWhileUploading': '.edit-form'
+
+Alternatively, you can check the `uploading` property of the object you create with `new PunkAveFileUploader(...)` at any time. It will be true if an upload is in progress. The existing implementation of `delaySubmitWhileUploading` relies on this.
 
 In the Upload Action
 ====================

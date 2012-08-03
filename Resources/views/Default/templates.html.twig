@@ -12,11 +12,18 @@
 {# and Underscore templates. It's easy to include in a Symfony template. #}
 
 <script type="text/template" id="file-uploader-template">
-  {# No name attribute please, that would cause it to submit with a regular form #}
-  <input type="file" data-files="1" multiple />
-  <ul class="thumbnails" data-thumbnails="1">
-      {# We populate the list via an API call #}
-  </ul>
+  <div class="uploader" data-dropzone="1" style="margin-top: 10px; margin-bottom: 10px">
+    <div class="controls" style="margin-bottom: 20px">
+      {# No name attribute please, that would cause it to submit with a regular form #}
+      <input type="file" data-files="1" multiple />
+      <span class="spinner" data-spinner="1" style="display: none">
+        <img src="{{ asset('bundles/punkavefileuploader/images/spinner.gif') }}" /> Uploading...
+      </span>
+    </div>
+    <ul class="thumbnails" data-thumbnails="1">
+        {# We populate the list via an API call #}
+    </ul>
+  </div>
 </script>
 
 {# parameters to underscore template: name, thumbnail_url, original_url #}

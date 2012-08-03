@@ -1,6 +1,7 @@
 function PunkAveFileUploader(options)
 {
   var self = this;
+  self.uploading = false;
   var uploadUrl = options.uploadUrl;
   var viewUrl = options.viewUrl;
   var $el = $(options.el);
@@ -23,6 +24,38 @@ function PunkAveFileUploader(options)
     });
   };
 
+  // Delay form submission until upload is complete.
+  // Note that you are welcome to examine the
+  // uploading property yourself if this isn't
+  // quite right for you
+  self.delaySubmitWhileUploading = function(sel)
+  {
+    $(sel).submit(function(e) {
+        if (!self.uploading)
+        {
+            return true;
+        }
+        function attempt()
+        {
+            if (self.uploading)
+            {
+                setTimeout(attempt, 100);
+            }
+            else
+            {
+                $(sel).submit();
+            }
+        }
+        attempt();
+        return false;
+    });
+  }
+
+  if (options.blockFormWhileUploading)
+  {
+    self.blockFormWhileUploading(options.blockFormWhileUploading);
+  }
+
   if (options.existingFiles)
   {
     self.addExistingFiles(options.existingFiles);
@@ -31,6 +64,7 @@ function PunkAveFileUploader(options)
   editor.fileupload({
     dataType: 'json',
     url: uploadUrl,
+    dropZone: $el.find('[data-dropzone="1"]'),
     done: function (e, data) {
       if (data)
       {
@@ -38,7 +72,15 @@ function PunkAveFileUploader(options)
           appendEditableImage(item);
         });
       }
-    }
+    },
+    start: function (e) {
+      $el.find('[data-spinner="1"]').show();
+      self.uploading = true;
+    },
+    stop: function (e) {
+      $el.find('[data-spinner="1"]').hide();
+      self.uploading = false;
+    },
   });
 
   // Expects thumbnail_url, url, and name properties. thumbnail_url can be undefined if
@@ -46,6 +88,11 @@ function PunkAveFileUploader(options)
   // result returned by the UploadHandler class on the PHP side
   function appendEditableImage(info)
   {
+    // TODO: share the error's specifics
+    if (info.error)
+    {
+      return;
+    }
     var li = $(fileTemplate(info));
     li.find('[data-action="delete"]').click(function(event) {
       var file = $(this).closest('[data-name]');
