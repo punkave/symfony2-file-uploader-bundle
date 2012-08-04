@@ -22,5 +22,11 @@
 	"autoload": {
 		"psr-0": { "PunkAve\\FileUploaderBundle": "" }
 	},
-	"target-dir": "PunkAve/FileUploaderBundle"
+	"target-dir": "PunkAve/FileUploaderBundle",
+	"minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "master"
+        }
+    }
 }
