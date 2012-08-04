@@ -1,0 +1,26 @@
+{
+	"name": "punkave/symfony2-file-uploader-bundle",
+	"type": "symfony-bundle",
+	"description": "Multiple file uploads for Symfony2 with the BlueImp uploader. Also scales uploaded images",
+	"keywords": ["upload", "file", "multiple file upload", "uploader", "blueimp", "symfony", "symfony bundle", "bundle", "punkave", "image transform"],
+	"homepage": "https://github.com/punkave/symfony2-file-uploader-bundle",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Thomas Boutell",
+			"email": "tom@punkave.com"
+		},
+		{
+			"name": "Wes John-Alder",
+			"email": "wes@punkave.com"
+		}
+	],
+	"require": {
+		"php": ">=5.3.2",
+		"symfony/framework-bundle": "2.*"
+	},
+	"autoload": {
+		"psr-0": { "PunkAve\\FileUploaderBundle": "" }
+	},
+	"target-dir": "PunkAve/FileUploaderBundle"
+}
