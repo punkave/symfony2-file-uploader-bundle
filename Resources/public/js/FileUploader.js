@@ -1,16 +1,17 @@
 function PunkAveFileUploader(options)
 {
-  var self = this;
-  self.uploading = false;
-  var uploadUrl = options.uploadUrl;
-  var viewUrl = options.viewUrl;
-  var $el = $(options.el);
-  uploaderTemplate = _.template($('#file-uploader-template').html());
+  var self = this,
+    uploadUrl = options.uploadUrl,
+    viewUrl = options.viewUrl,
+    $el = $(options.el),
+    uploaderTemplate = _.template($('#file-uploader-template').html());
   $el.html(uploaderTemplate({}));
 
-  fileTemplate = _.template($('#file-uploader-file-template').html());
-  editor = $el.find('[data-files="1"]');
-  thumbnails = $el.find('[data-thumbnails="1"]');
+  var fileTemplate = _.template($('#file-uploader-file-template').html()),
+    editor = $el.find('[data-files="1"]'),
+    thumbnails = $el.find('[data-thumbnails="1"]');
+  
+  self.uploading = false;
 
   self.addExistingFiles = function(files)
   {
