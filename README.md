@@ -82,6 +82,10 @@ This code takes creat of creating an editId on the first pass through the form a
         }
     }
 
+If the user encounters a validation error on their first attempt to complete the action (for instance, a form validation error), you'll want to present the same list of files again. So use the `getFiles` method to obtain a list of existing files. Make sure you pass that list to your template.
+
+    $existingFiles = $this->get('punk_ave.file_uploader')->getFiles(array('folder' => 'tmp/attachments/' . $editId));
+
 (Note that the editId you generate should be highly random to prevent users from gaining control of each other's attachments.)
 
 When the user saves the form and you have just persisted the posting object, you should also sync files back from the temporary folder associated with the editId to the permanent one associated with the posting's id. Since we are done with the temporary folder we ask the file uploader service to remove that folder. We also ask the service to create the destination folder if necessary:
