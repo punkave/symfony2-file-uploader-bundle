@@ -52,12 +52,12 @@ class FileUploader
 
         if (!strlen(trim($options['file_base_path'])))
         {
-            throw Exception("file_base_path option looks empty, bailing out");
+            throw \Exception("file_base_path option looks empty, bailing out");
         }
 
         if (!strlen(trim($options['folder'])))
         {
-            throw Exception("folder option looks empty, bailing out");
+            throw \Exception("folder option looks empty, bailing out");
         }
 
         system("rm -rf " . escapeshellarg($folder));
@@ -83,15 +83,15 @@ class FileUploader
         // trash your site
         if (!strlen(trim($options['file_base_path'])))
         {
-            throw Exception("file_base_path option looks empty, bailing out");
+            throw \Exception("file_base_path option looks empty, bailing out");
         }
         if (!strlen(trim($options['from_folder'])))
         {
-            throw Exception("from_folder option looks empty, bailing out");
+            throw \Exception("from_folder option looks empty, bailing out");
         }
         if (!strlen(trim($options['to_folder'])))
         {
-            throw Exception("to_folder option looks empty, bailing out");
+            throw \Exception("to_folder option looks empty, bailing out");
         }
 
         $from = $options['file_base_path'] . '/' . $options['from_folder'];
@@ -105,12 +105,12 @@ class FileUploader
             }
             elseif (!file_exists($to))
             {
-                throw new Exception("to_folder does not exist");
+                throw new \Exception("to_folder does not exist");
             }
             system("rsync -a --delete " . escapeshellarg($from . '/') . " " . escapeshellarg($to), $result);
             if ($result !== 0)
             {
-                throw new Exception("Sync failed");
+                throw new \Exception("Sync failed");
             }
             if (isset($options['remove_from_folder']) && $options['remove_from_folder'])
             {
@@ -149,7 +149,7 @@ class FileUploader
     {
         if (!isset($options['folder']))
         {
-            throw new Exception("You must pass the 'folder' option to distinguish this set of files from others");
+            throw new \Exception("You must pass the 'folder' option to distinguish this set of files from others");
         }
 
         $options = array_merge($this->options, $options);
