@@ -129,7 +129,7 @@ Let's assume there is an edit.html.twig template associated with the edit action
     {# Underscore templates for the uploader #}
     {% include "PunkAveFileUploaderBundle:Default:templates.html.twig" %}
 
-    <form class="edit-form" action="{{ path('edit', { id: posting.id, editId: editId }}" method="post" {{ form_enctype(form) }}>
+    <form class="edit-form" action="{{ path('edit', { id: posting.id, editId: editId }) }}" method="post" {{ form_enctype(form) }}>
         {{ form_widget(form) }}
 
         {# Hydrated by javascript #}
