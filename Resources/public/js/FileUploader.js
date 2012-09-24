@@ -13,7 +13,7 @@ function PunkAveFileUploader(options)
   
   self.uploading = false;
   
-  self.errorCallback = 'errorCallback' in options ? options.errorCallback : function( info ) { console.log(info); },
+  self.errorCallback = 'errorCallback' in options ? options.errorCallback : function( info ) { },
 
   self.addExistingFiles = function(files)
   {
