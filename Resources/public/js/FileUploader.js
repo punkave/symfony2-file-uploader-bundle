@@ -12,6 +12,8 @@ function PunkAveFileUploader(options)
     thumbnails = $el.find('[data-thumbnails="1"]');
   
   self.uploading = false;
+  
+  self.errorCallback = 'errorCallback' in options ? options.errorCallback : function( info ) { if (window.console && console.log) { console.log(info) } },
 
   self.addExistingFiles = function(files)
   {
@@ -19,7 +21,7 @@ function PunkAveFileUploader(options)
       appendEditableImage({
         // cmsMediaUrl is a global variable set by the underscoreTemplates partial of MediaItems.html.twig
         'thumbnail_url': viewUrl + '/thumbnails/' + file,
-        'url': uploadUrl + '/originals/' + file,
+        'url': viewUrl + '/originals/' + file,
         'name': file
         });
     });
@@ -81,7 +83,7 @@ function PunkAveFileUploader(options)
     stop: function (e) {
       $el.find('[data-spinner="1"]').hide();
       self.uploading = false;
-    },
+    }
   });
 
   // Expects thumbnail_url, url, and name properties. thumbnail_url can be undefined if
@@ -89,9 +91,9 @@ function PunkAveFileUploader(options)
   // result returned by the UploadHandler class on the PHP side
   function appendEditableImage(info)
   {
-    // TODO: share the error's specifics
     if (info.error)
     {
+      self.errorCallback(info);
       return;
     }
     var li = $(fileTemplate(info));
