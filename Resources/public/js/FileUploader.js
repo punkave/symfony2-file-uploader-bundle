@@ -18,7 +18,7 @@ function PunkAveFileUploader(options)
   self.addExistingFiles = function(files)
   {
     _.each(files, function(file) {
-      appendEditableImage(self, {
+      appendEditableImage({
         // cmsMediaUrl is a global variable set by the underscoreTemplates partial of MediaItems.html.twig
         'thumbnail_url': viewUrl + '/thumbnails/' + file,
         'url': viewUrl + '/originals/' + file,
@@ -72,7 +72,7 @@ function PunkAveFileUploader(options)
       if (data)
       {
         _.each(data.result, function(item) {
-          appendEditableImage(self, item);
+          appendEditableImage(item);
         });
       }
     },
@@ -89,11 +89,11 @@ function PunkAveFileUploader(options)
   // Expects thumbnail_url, url, and name properties. thumbnail_url can be undefined if
   // url does not end in gif, jpg, jpeg or png. This is designed to work with the
   // result returned by the UploadHandler class on the PHP side
-  function appendEditableImage(punkave, info)
+  function appendEditableImage(info)
   {
     if (info.error)
     {
-      punkave.errorCallback(info);
+      self.errorCallback(info);
       return;
     }
     var li = $(fileTemplate(info));
