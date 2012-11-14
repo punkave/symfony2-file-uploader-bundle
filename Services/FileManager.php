@@ -2,21 +2,15 @@
 
 namespace PunkAve\FileUploaderBundle\Services;
 
-use Symfony\Component\Filesystem\Filesystem;
-use \Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\SplFileInfo;
-
-class FileManager extends Filesystem
+class FileManager
 {
     protected $options;
 
     public function __construct($options)
     {
-        if (!strlen(trim($options['file_base_path']))) {
-            throw \Exception("file_base_path option looks empty, bailing out");
-        }
         $this->options = $options;
     }
+
     /**
      * Get a list of files already present. The 'folder' option is required.
      * If you pass consistent options to this method and handleFileUpload with
@@ -25,36 +19,47 @@ class FileManager extends Filesystem
     public function getFiles($options = array())
     {
         $options = array_merge($this->options, $options);
-        $ret = array();
-        $folder = $options['file_base_path'] . DIRECTORY_SEPARATOR . $options['folder'];
-        if ($this->exists($folder)) {
-            $finder = new Finder();
-            $finder->in($folder.DIRECTORY_SEPARATOR.'originals');
+
+        $folder = $options['file_base_path'] . '/' . $options['folder'];
+        if (file_exists($folder))
+        {
+            $dirs = glob("$folder/originals/*");
             $fullPath = isset($options['full_path']) ? $options['full_path'] : false;
-            foreach($finder as $entry) {
-                /** @var $entry SplFileInfo */
-                array_push($ret, $fullPath?$entry->getRealPath():$entry->getBasename());
+            if ($fullPath)
+            {
+                return $dirs;
             }
+            $result = array_map(function($s) { return basename($s); }, $dirs);
+            return $result;
         }
-        return $ret;
+        else
+        {
+            return array();
+        }
     }
 
     /**
      * Remove the folder specified by 'folder' and its contents.
      * If you pass consistent options to this method and handleFileUpload with
      * regard to paths, then you will get consistent results.
-     * @param array $options
-     * @throws IOException
      */
     public function removeFiles($options = array())
     {
-        $folder = $options['folder'];
-        if (!strlen(trim($folder))) {
-            throw \Exception("folder option looks empty, bailing out");
+        $options = array_merge($this->options, $options);
+
+
+        $folder = $options['file_base_path'] . '/' . $options['folder'];
+
+        if (!strlen(trim($options['file_base_path'])))
+        {
+            throw \Exception("file_base_path option looks empty, bailing out");
         }
 
-        // Remove folder, let the caller deal with an IO exception in case of error
-        $this->remove($this->options['file_base_path'] . DIRECTORY_SEPARATOR . $folder);
+        if (!strlen(trim($options['folder'])))
+        {
+            throw \Exception("folder option looks empty, bailing out");
+        }
+        system("rm -rf " . escapeshellarg($folder));
     }
 
     /**
@@ -75,21 +80,44 @@ class FileManager extends Filesystem
         // We're syncing and potentially deleting folders, so make sure
         // we were passed something - make it a little harder to accidentally
         // trash your site
-        if (!strlen(trim($options['from_folder']))) {
+        if (!strlen(trim($options['file_base_path'])))
+        {
+            throw \Exception("file_base_path option looks empty, bailing out");
+        }
+        if (!strlen(trim($options['from_folder'])))
+        {
             throw \Exception("from_folder option looks empty, bailing out");
         }
-        if (!strlen(trim($options['to_folder']))) {
+        if (!strlen(trim($options['to_folder'])))
+        {
             throw \Exception("to_folder option looks empty, bailing out");
         }
 
-        $from = $options['file_base_path'] . DIRECTORY_SEPARATOR . $options['from_folder'];
-        $to = $options['file_base_path'] . DIRECTORY_SEPARATOR . $options['to_folder'];
-        if ($this->exists($from)) {
-            $this->mirror($from, $to);
-            if (isset($options['remove_from_folder']) && $options['remove_from_folder']) {
-                $this->remove($from);
+        $from = $options['file_base_path'] . '/' . $options['from_folder'];
+        $to = $options['file_base_path'] . '/' . $options['to_folder'];
+        $slashes = substr_count($from, '/');
+        if (file_exists($from))
+        {
+            if (isset($options['create_to_folder']) && $options['create_to_folder'])
+            {
+                @mkdir($to, 0777, true);
             }
-        } else {
+            elseif (!file_exists($to))
+            {
+                throw new \Exception("to_folder does not exist");
+            }
+            system("rsync -a --delete " . escapeshellarg($from . '/') . " " . escapeshellarg($to), $result);
+            if ($result !== 0)
+            {
+                throw new \Exception("Sync failed");
+            }
+            if (isset($options['remove_from_folder']) && $options['remove_from_folder'])
+            {
+                system("rm -rf " . escapeshellarg($from));
+            }
+        }
+        else
+        {
             // A missing from_folder is not an error. This is commonly the case
             // when syncing from something that has nothing attached to it yet, etc.
         }
