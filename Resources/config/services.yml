@@ -26,6 +26,7 @@ parameters:
     - dotx #application/vnd.openxmlformats-officedocument.wordprocessingml.template
     - txt #text/plain
     - rtf #text/rtf
+    - xml #text/xml
 
   # Folder where originals are uploaded. This is the only folder populated for
   # uploads that are not images
@@ -78,6 +79,7 @@ services:
     # convenient if you need to delete files relating to
     # something in a command context
     punk_ave.file_uploader_file_manager:
+        # class: PunkAve\FileUploaderBundle\Services\FileManagerSF2
         class: PunkAve\FileUploaderBundle\Services\FileManager
         arguments:
           # For bc reasons we're not changing the names of the parameters
