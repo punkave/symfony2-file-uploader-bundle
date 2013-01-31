@@ -1,4 +1,5 @@
 parameters:
+  file_uploader.max_number_of_files: 4
   file_uploader.file_base_path: "%kernel.root_dir%/../web/uploads"
   file_uploader.web_base_path: "/uploads"
   file_uploader.allowed_extensions:
@@ -26,7 +27,7 @@ parameters:
     - dotx #application/vnd.openxmlformats-officedocument.wordprocessingml.template
     - txt #text/plain
     - rtf #text/rtf
-
+    
   # Folder where originals are uploaded. This is the only folder populated for
   # uploads that are not images
   file_uploader.originals:
@@ -71,6 +72,7 @@ services:
             allowed_extensions: '%file_uploader.allowed_extensions%'
             sizes: '%file_uploader.sizes%'
             originals: '%file_uploader.originals%'
+            max_number_of_files: '%file_uploader.max_number_of_files%'
         scope: request
 
     # You usually won't need this sub-service directly,
