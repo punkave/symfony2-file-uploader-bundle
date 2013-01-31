@@ -1,5 +1,5 @@
 parameters:
-  file_uploader.max_number_of_files: 4
+  file_uploader.max_number_of_files: ~
   file_uploader.file_base_path: "%kernel.root_dir%/../web/uploads"
   file_uploader.web_base_path: "/uploads"
   file_uploader.allowed_extensions:
