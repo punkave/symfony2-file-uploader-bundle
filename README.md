@@ -260,6 +260,29 @@ And so on.
 
 The original names and file extensions of the files uploaded are preserved as much as possible without introducing security risks. 
 
+Limit number of uploads
+-----------------------
+
+You can limit the number of uploaded files by setting the `max_no_of_files` property. You could set this in parameters.yml like this:
+    
+    parameters:
+      file_uploader.max_number_of_files: 4
+
+You'll probably want to add an error handler for this case. In the template where you initialize PunkAveFileUploader set `errorCallback`
+
+    // Enable the file uploader
+    $(function() {
+      new PunkAveFileUploader({    
+        // ... other required options,
+
+        'errorCallback': function(errorObj) {
+          if (errorObj.error == 'maxNumberOfFiles') {
+            alert("Maximum uploaded files exceeded!");
+          }
+        }
+      });
+    });
+
 Limitations
 ===========
 
