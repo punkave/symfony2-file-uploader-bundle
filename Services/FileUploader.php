@@ -110,7 +110,8 @@ class FileUploader
                 'upload_url' => $webPath . '/' . $originals['folder'] . '/', 
                 'script_url' => $options['request']->getUri(),
                 'image_versions' => $sizes,
-                'accept_file_types' => $allowedExtensionsRegex
+                'accept_file_types' => $allowedExtensionsRegex,
+                'max_number_of_files' => $this->options['max_number_of_files'],
             ));
 
         // From https://github.com/blueimp/jQuery-File-Upload/blob/master/server/php/index.php
