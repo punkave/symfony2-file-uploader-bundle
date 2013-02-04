@@ -29,6 +29,9 @@ class FileManager
             {
                 return $dirs;
             }
+            if (!is_array($dirs)) {
+                $dirs = array();
+            }
             $result = array_map(function($s) { return basename($s); }, $dirs);
             return $result;
         }
