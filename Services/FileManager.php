@@ -29,6 +29,9 @@ class FileManager
             {
                 return $dirs;
             }
+            if (!is_array($dirs)) {
+                $dirs = array();
+            }
             $result = array_map(function($s) { return basename($s); }, $dirs);
             return $result;
         }
@@ -106,6 +109,7 @@ class FileManager
             {
                 throw new \Exception("to_folder does not exist");
             }
+            $result = null;
             system("rsync -a --delete " . escapeshellarg($from . '/') . " " . escapeshellarg($to), $result);
             if ($result !== 0)
             {
