@@ -106,6 +106,7 @@ class FileManager
             {
                 throw new \Exception("to_folder does not exist");
             }
+            $result = null;
             system("rsync -a --delete " . escapeshellarg($from . '/') . " " . escapeshellarg($to), $result);
             if ($result !== 0)
             {
