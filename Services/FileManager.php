@@ -59,7 +59,16 @@ class FileManager
         {
             throw \Exception("folder option looks empty, bailing out");
         }
-        system("rm -rf " . escapeshellarg($folder));
+    	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')
+        {
+	   //Running on Windows
+	   system('rd /s/q ' . escapeshellarg($folder));
+	}
+        else
+        {
+	   //Not running on Windows. Hoping it's a Linux
+    	   system("rm -rf " . escapeshellarg($folder));
+	}
     }
 
     /**
@@ -106,14 +115,34 @@ class FileManager
             {
                 throw new \Exception("to_folder does not exist");
             }
-            system("rsync -a --delete " . escapeshellarg($from . '/') . " " . escapeshellarg($to), $result);
-            if ($result !== 0)
+            if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')
             {
+                //Running on Windows
+                system("robocopy /Mir /NP /NDL /NFL /NJH /NJS " . escapeshellarg($from . '/') . " " . escapeshellarg($to), $result);
+                $kk=1;
+            }
+            else
+            {
+                 //Not running on Windows. Hoping it's a Linux
+                 system("rsync -a --delete " . escapeshellarg($from . '/') . " " . escapeshellarg($to), $result);
+                 $kk=0;
+            }		
+            if ($result !== $kk)
+            {	
                 throw new \Exception("Sync failed");
             }
             if (isset($options['remove_from_folder']) && $options['remove_from_folder'])
             {
-                system("rm -rf " . escapeshellarg($from));
+                if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')
+                {
+                    //Running on Windows
+                    system('rd /s/q ' . escapeshellarg($from));
+                }
+                else
+                {
+                    //Not running on Windows. Hoping it's a Linux
+                    system("rm -rf " . escapeshellarg($from));
+                }
             }
         }
         else
