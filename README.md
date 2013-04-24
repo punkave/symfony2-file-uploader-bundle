@@ -211,15 +211,16 @@ Setting the allowed file types
 You can specify custom file types to divert from the default ones (which are defined in Resources/config/services.yml) by either specifing 
 them in the handleFileUpload method or parameters.yml. 
 
-In the handleFileUpload:
+***In the handleFileUpload:***
 
     $this->get('punk_ave.file_uploader')->handleFileUpload(array(
         'folder' => 'tmp/attachments/' . $editId,
-        'allowed_extends' => array('zip', 'rar', 'tar')
+        'allowed_extensions' => array('zip', 'rar', 'tar')
     ));
 
-In this case the FileUploader services will try to merge the default ones with the given ones and make one regex of it. Using regular expression characters could result in a error.
+In this case the FileUploader service will merge the default extensions with the supplied extensions and make a single regex of it. Using regular expression characters could result in errors.
 
+***Parameters.yml:***
 If you have the Symfony standard edition installed you can specify them in app/config/parameters.yml:
 
     file_uploader.allowed_extensions:
@@ -227,7 +228,7 @@ If you have the Symfony standard edition installed you can specify them in app/c
         - rar
         - tar
 
-Doing this will override the default ones instead of adding them!
+Doing this will override the default extensions instead of adding them!
 
 Removing Files
 ==============
