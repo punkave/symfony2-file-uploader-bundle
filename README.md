@@ -206,6 +206,30 @@ This single action actually implements a full REST API in which the BlueImp Uplo
 
 Again, handleFileUpload DOES NOT RETURN as the response is generated in native PHP by BlueImp's UploadHandler class.
 
+Setting the allowed file types
+------------------------------
+You can specify custom file types to divert from the default ones (which are defined in Resources/config/services.yml) by either specifing 
+them in the handleFileUpload method or parameters.yml. 
+
+***In the handleFileUpload:***
+
+    $this->get('punk_ave.file_uploader')->handleFileUpload(array(
+        'folder' => 'tmp/attachments/' . $editId,
+        'allowed_extensions' => array('zip', 'rar', 'tar')
+    ));
+
+In this case the FileUploader service will merge the default extensions with the supplied extensions and make a single regex of it. Using regular expression characters could result in errors.
+
+***Parameters.yml:***
+If you have the Symfony standard edition installed you can specify them in app/config/parameters.yml:
+
+    file_uploader.allowed_extensions:
+        - zip
+        - rar
+        - tar
+
+Doing this will override the default extensions instead of adding them!
+
 Removing Files
 ==============
 
