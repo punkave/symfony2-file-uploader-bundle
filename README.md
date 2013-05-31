@@ -4,7 +4,7 @@ PunkAveFileUploaderBundle
 Introduction
 ============
 
-This bundle provides multiple file uploads, based on the [https://github.com/blueimp/jQuery-File-Upload/](BlueImp jQuery file uploader) package. Both drag and drop and multiple file selection are fully supported in compatible browsers. We chose BlueImp because it has excellent backwards and forwards browser compatibility. 
+This bundle provides multiple file uploads, based on the [BlueImp jQuery file uploader](https://github.com/blueimp/jQuery-File-Upload/) package. Both drag and drop and multiple file selection are fully supported in compatible browsers. We chose BlueImp because it has excellent backwards and forwards browser compatibility. 
 
 This bundle is a fairly thin wrapper because the existing PHP uploader class provided by BlueImp is very good already and does so many excellent things straight out of the box. We provided a way to integrate it into a Symfony 2 project.
 
