@@ -29,7 +29,7 @@ Installation
 ============
 
 Symfony 2.1
-===========
+-----------
 1) Add the following line to your Symfony2 deps file:
     
     [FileUploaderBundle]
@@ -49,7 +49,7 @@ Symfony 2.1
     bin/vendors install
 
 Symfony 2.2
-===========
+-----------
 1) Add the following line to your composer.json require block:
     "punkave/symfony2-file-uploader-bundle": "dev-master"
 
