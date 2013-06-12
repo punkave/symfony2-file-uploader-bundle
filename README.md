@@ -28,6 +28,8 @@ Requirements
 Installation
 ============
 
+Symfony 2.1
+===========
 1) Add the following line to your Symfony2 deps file:
     
     [FileUploaderBundle]
@@ -45,6 +47,19 @@ Installation
 4) Install your vendors:
 
     bin/vendors install
+
+Symfony 2.2
+===========
+1) Add the following line to your composer.json require block:
+    "punkave/symfony2-file-uploader-bundle": "dev-master"
+
+    a) Symfony 2.2 Standard has a branch alias for dev-master which prevents this bundle from installing through composer. Remove this line to work around. 
+
+2) Modify your AppKernel with the following line:
+
+    new PunkAve\FileUploaderBundle\PunkAveFileUploaderBundle(),
+
+3) Execute composer install
 
 Usage
 =====
