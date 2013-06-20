@@ -4,10 +4,10 @@ function PunkAveFileUploader(options)
     uploadUrl = options.uploadUrl,
     viewUrl = options.viewUrl,
     $el = $(options.el),
-    uploaderTemplate = _.template($('#file-uploader-template').html().trim());
+    uploaderTemplate = _.template($.trim($('#file-uploader-template').html()));
   $el.html(uploaderTemplate({}));
 
-  var fileTemplate = _.template($('#file-uploader-file-template').html().trim()),
+  var fileTemplate = _.template($.trim($('#file-uploader-file-template').html())),
     editor = $el.find('[data-files="1"]'),
     thumbnails = $el.find('[data-thumbnails="1"]');
   
