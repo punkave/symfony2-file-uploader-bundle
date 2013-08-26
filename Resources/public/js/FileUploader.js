@@ -63,6 +63,44 @@ function PunkAveFileUploader(options)
   {
     self.addExistingFiles(options.existingFiles);
   }
+  
+  
+  if (options.addCallback)
+    editor.bind('fileuploadadd', options.addCallback);
+  if (options.submitCallback)
+    editor.bind('fileuploadsubmit', options.submitCallback);
+  if (options.sendCallback)
+    editor.bind('fileuploadsend', options.sendCallback);
+  if (options.doneCallback)
+    editor.bind('fileuploaddone', options.doneCallback);
+  if (options.failCallback)
+    editor.bind('fileuploadfail', options.failCallback);
+  if (options.alwaysCallback)
+    editor.bind('fileuploadalways', options.alwaysCallback);
+  if (options.progressCallback)
+    editor.bind('fileuploadprogress', options.progressCallback);
+  if (options.progressallCallback)
+    editor.bind('fileuploadprogressall', options.progressallCallback);
+  if (options.startCallback)
+    editor.bind('fileuploadstart', options.startCallback);
+  if (options.stopCallback)
+    editor.bind('fileuploadstop', options.stopCallback);
+  if (options.changeCallback)
+    editor.bind('fileuploadchange', options.changeCallback);
+  if (options.pasteCallback)
+    editor.bind('fileuploadpaste', options.pasteCallback);
+  if (options.dropCallback)
+    editor.bind('fileuploaddrop', options.dropCallback);
+  if (options.dragoverCallback)
+    editor.bind('fileuploaddragover', options.dragoverCallback);
+  if (options.chunksendCallback)
+    editor.bind('fileuploadchunksend', options.chunksendCallback);
+  if (options.chunkdoneCallback)
+    editor.bind('fileuploadchunkdone', options.chunkdoneCallback);
+  if (options.chunkfailCallback)
+    editor.bind('fileuploadchunkfail', options.chunkfailCallback);
+  if (options.chunkalwaysCallback)
+    editor.bind('fileuploadchunkalways', options.chunkalwaysCallback);
 
   editor.fileupload({
     dataType: 'json',
