@@ -133,9 +133,12 @@ To make the necessary JavaScript available via Assetic (note that you must suppl
         '@MyBundle/Resources/public/js/jquery-ui-1.8.22.custom.min.js'
         '@MyBundle/Resources/public/js/underscore-min.js'
         '@PunkAveFileUploaderBundle/Resources/public/js/jquery.fileupload.js'
+        '@PunkAveFileUploaderBundle/Resources/public/js/jquery.iframe-transport.js'
         '@PunkAveFileUploaderBundle/Resources/public/js/FileUploader.js' %}
         <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
+
+You must include the iframe transport for compatibility with IE 9 and below.
 
 In the Edit Template
 ====================
