@@ -31,8 +31,7 @@
 <script type="text/template" id="file-uploader-file-template">
     <li data-name="<%- name %>" class="thumbnail">
         {# Some things can be thumbnailed, some things not #}
-        {# ACHTUNG: regular expression literals fail in Underscore templates #}
-        <% if (url.match(new RegExp('(\.gif|\.jpg|\.jpeg|\.png)$', 'i'))) { %>
+        <% if ('undefined' != typeof thumbnail_url) { %>
             <img src="<%- thumbnail_url %>" class="thumbnail-image" />
         <% } %>
         <div class="caption">
