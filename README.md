@@ -1,17 +1,6 @@
 PunkAveFileUploaderBundle
 =========================
 
-NO LONGER UPDATED, USE ANOTHER BUNDLE
-=====================================
-
-**We maintain this bundle for existing projects only.** For your new project please use another file uploader bundle such as:
-
-[OneupUploaderBundle](http://knpbundles.com/1up-lab/OneupUploaderBundle)
-
-Or just integrate BlueImp into your project directly. It's not very hard to do.
-
-Thanks!
-
 Introduction
 ============
 
