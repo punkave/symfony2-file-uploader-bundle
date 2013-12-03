@@ -98,7 +98,6 @@ class FileManager
 
         $from = $options['file_base_path'] . '/' . $options['from_folder'];
         $to = $options['file_base_path'] . '/' . $options['to_folder'];
-        $slashes = substr_count($from, '/');
         if (file_exists($from))
         {
             if (isset($options['create_to_folder']) && $options['create_to_folder'])
