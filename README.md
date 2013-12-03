@@ -4,18 +4,18 @@ PunkAveFileUploaderBundle
 Introduction
 ============
 
-This bundle provides multiple file uploads, based on the [BlueImp jQuery file uploader](https://github.com/blueimp/jQuery-File-Upload/) package. Both drag and drop and multiple file selection are fully supported in compatible browsers. We chose BlueImp because it has excellent backwards and forwards browser compatibility. 
+This bundle provides multiple file uploads, based on the [BlueImp jQuery file uploader](https://github.com/blueimp/jQuery-File-Upload/) package. Both drag and drop and multiple file selection are fully supported in compatible browsers. We chose BlueImp because it has excellent backwards and forwards browser compatibility.
 
 This bundle is a fairly thin wrapper because the existing PHP uploader class provided by BlueImp is very good already and does so many excellent things straight out of the box. We provided a way to integrate it into a Symfony 2 project.
 
-The uploader delivers files to a folder that you specify. If that folder already contains files, they are displayed side by side with new files, as existing files that can be removed. 
+The uploader delivers files to a folder that you specify. If that folder already contains files, they are displayed side by side with new files, as existing files that can be removed.
 
 The bundle can automatically scale images to sizes you specify. The provided synchronization methods make it possible to create forms in which attached files respect "save" and "cancel" operations.
 
 Note on Internet Explorer
 =========================
 
-Versions of Internet Explorer prior to 10 have no support for multiple file uploads. However IE users will be able to add a single file at a time and will still be able to build a collection of attached files. 
+Versions of Internet Explorer prior to 10 have no support for multiple file uploads. However IE users will be able to add a single file at a time and will still be able to build a collection of attached files.
 
 Requirements
 ============
@@ -31,7 +31,7 @@ Installation
 Symfony 2.0
 -----------
 1) Add the following line to your Symfony2 deps file:
-    
+
     [FileUploaderBundle]
         git=http://github.com/punkave/symfony2-file-uploader-bundle.git
         target=/bundles/PunkAve/FileUploaderBundle
@@ -58,7 +58,7 @@ Symfony 2.2
  "branch-alias": {
             "dev-master": "2.2-dev"
         }
-``` 
+```
 
 2) Modify your AppKernel with the following line:
 
@@ -88,7 +88,7 @@ This code takes creat of creating an editId on the first pass through the form a
 (Fetching $posting and validating that the user is allowed to edit that posting is up to you.)
 
     $request = $this->getRequest();
- 
+
     $editId = $this->getRequest()->get('editId');
     if (!preg_match('/^\d+$/', $editId))
     {
@@ -96,7 +96,7 @@ This code takes creat of creating an editId on the first pass through the form a
         if ($posting->getId())
         {
             $this->get('punk_ave.file_uploader')->syncFiles(
-                array('from_folder' => 'attachments/' . $posting->getId(), 
+                array('from_folder' => 'attachments/' . $posting->getId(),
                   'to_folder' => 'tmp/attachments/' . $editId,
                   'create_to_folder' => true));
         }
@@ -128,7 +128,7 @@ In Your Layout
 
 To make the necessary JavaScript available via Assetic (note that you must supply jQuery, jQuery UI and Underscore):
 
-    {% javascripts 
+    {% javascripts
         '@MyBundle/Resources/public/js/jquery-1.7.2.min.js'
         '@MyBundle/Resources/public/js/jquery-ui-1.8.22.custom.min.js'
         '@MyBundle/Resources/public/js/underscore-min.js'
@@ -158,7 +158,7 @@ Let's assume there is an edit.html.twig template associated with the edit action
         {# Hydrated by javascript #}
         <div class="file-uploader"></div>
 
-        <button class="btn btn-primary" type="submit">{{ isNew ? "Save New Listing" : "Save Changes" }}</button> 
+        <button class="btn btn-primary" type="submit">{{ isNew ? "Save New Listing" : "Save Changes" }}</button>
         <a class="btn" href="{{ cancel }}">Cancel</a>
         {% if not isNew %}
             <a class="btn btn-danger" href="{{ path('delete', { id: posting.id } ) }}">Delete</a>
@@ -171,11 +171,11 @@ Let's assume there is an edit.html.twig template associated with the edit action
     // Enable the file uploader
 
     $(function() {
-        new PunkAveFileUploader({ 
+        new PunkAveFileUploader({
             'uploadUrl': {{ path('upload', { editId: editId }) | json_encode | raw }},
             'viewUrl': {{ '/uploads/tmp/attachments/' ~ editId | json_encode | raw }},
             'el': '.file-uploader',
-            'existingFiles': {{ existingFiles | json_encode | raw }},
+            'existingFiles': {{ punkave_get_files('tmp/attachments/' ~ editId) | json_encode | raw }},
             'delaySubmitWhileUploading': '.edit-form'
         });
     });
@@ -231,8 +231,8 @@ Again, handleFileUpload DOES NOT RETURN as the response is generated in native P
 
 Setting the allowed file types
 ------------------------------
-You can specify custom file types to divert from the default ones (which are defined in Resources/config/services.yml) by either specifing 
-them in the handleFileUpload method or parameters.yml. 
+You can specify custom file types to divert from the default ones (which are defined in Resources/config/services.yml) by either specifing
+them in the handleFileUpload method or parameters.yml.
 
 ***In the handleFileUpload:***
 
@@ -280,9 +280,9 @@ Consider installing this shell script as a cron job to be run nightly. This shel
 Configuration Parameters
 ========================
 
-See `Resources/config/services.yml` in this bundle. You can easily decide what the parent folder of uploads will be and what file extensions are accepted, as well as what sizes you'd like image files to be automatically scaled to. 
+See `Resources/config/services.yml` in this bundle. You can easily decide what the parent folder of uploads will be and what file extensions are accepted, as well as what sizes you'd like image files to be automatically scaled to.
 
-The `from_folder`, `to_folder`, and `folder` options seen above are all appended after `file_uploader.file_base_path` when dealing with files. 
+The `from_folder`, `to_folder`, and `folder` options seen above are all appended after `file_uploader.file_base_path` when dealing with files.
 
 If `file_uploader.file_base_path` is set as follows (the default):
 
@@ -305,13 +305,13 @@ So all of these can be readily accessed via the following URLs:
 
 And so on.
 
-The original names and file extensions of the files uploaded are preserved as much as possible without introducing security risks. 
+The original names and file extensions of the files uploaded are preserved as much as possible without introducing security risks.
 
 Limit number of uploads
 -----------------------
 
 You can limit the number of uploaded files by setting the `max_no_of_files` property. You could set this in parameters.yml like this:
-    
+
     parameters:
       file_uploader.max_number_of_files: 4
 
@@ -319,7 +319,7 @@ You'll probably want to add an error handler for this case. In the template wher
 
     // Enable the file uploader
     $(function() {
-      new PunkAveFileUploader({    
+      new PunkAveFileUploader({
         // ... other required options,
 
         'errorCallback': function(errorObj) {
@@ -333,7 +333,7 @@ You'll probably want to add an error handler for this case. In the template wher
 Limitations
 ===========
 
-This bundle accesses the file system via the `glob()` function. It won't work out of the box with an S3 stream wrapper. 
+This bundle accesses the file system via the `glob()` function. It won't work out of the box with an S3 stream wrapper.
 
 Syncing files back and forth to follow the editId pattern might not be agreeable if your attachments are very large. In that case, don't use the editId pattern. One alternative is to create objects immediately in the database and not show them in the list view until you mark them live. This way your edit action can use the permanent id of the object as part of the `folder` option, and nothing has to be synced. In this scenario you should probably move the attachments list below the form to hint to the user that there is no such thing as "cancelling" those actions.
 
