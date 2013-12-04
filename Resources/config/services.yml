@@ -3,9 +3,9 @@ parameters:
   file_uploader.file_base_path: "%kernel.root_dir%/../web/uploads"
   file_uploader.web_base_path: "/uploads"
   file_uploader.allowed_extensions:
-    # Mime types are just for documentation's sake. 
+    # Mime types are just for documentation's sake.
     # BlueImp filters by supplied extension. No checking of the
-    # actual file contents is done. If your mime types are 
+    # actual file contents is done. If your mime types are
     # configured correctly in Apache the browser will have the
     # correct expectations for each file
     - gif #image/gif
@@ -27,17 +27,17 @@ parameters:
     - dotx #application/vnd.openxmlformats-officedocument.wordprocessingml.template
     - txt #text/plain
     - rtf #text/rtf
-    
+
   # Folder where originals are uploaded. This is the only folder populated for
   # uploads that are not images
   file_uploader.originals:
       folder: originals
 
-  # Scaled versions of images. These image sizes are pretty great for 
+  # Scaled versions of images. These image sizes are pretty great for
   # 1140 grid / responsive / bootstrap projects, but you can override as you see fit
   #
   # Width and height here are maximums to be enforced, NOT an aspect ratio to be enforced.
-  # UploadHandler renders the smallest size that doesn't violate one of the limits. 
+  # UploadHandler renders the smallest size that doesn't violate one of the limits.
   #
   # If an original is too small it is simply copied for that particular size. In short,
   # BlueImp did a good job here.
@@ -84,3 +84,9 @@ services:
         arguments:
           # For bc reasons we're not changing the names of the parameters
           - file_base_path: '%file_uploader.file_base_path%'
+
+    punk_ave.twig.file_extension:
+        class: PunkAve\FileUploaderBundle\Twig\FileExtension
+        arguments: [@service_container]
+        tags:
+            - { name: twig.extension }
