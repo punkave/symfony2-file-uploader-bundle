@@ -1,7 +1,6 @@
 PunkAveFileUploaderBundle
 =========================
 
-THIS IS A TEST DO NOT FORK YET
 
 Introduction 
 ============
@@ -330,6 +329,18 @@ You'll probably want to add an error handler for this case. In the template wher
           }
         }
       });
+    });
+    
+Use sequential uploads
+--------------------------------
+
+You can use the sequentialUpload options by adding this line on your JS call
+
+    $(function() {
+        new PunkAveFileUploader({
+        // ... other required options,
+            'sequentialUploads': true
+        });
     });
 
 Limitations
