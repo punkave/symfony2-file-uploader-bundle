@@ -337,9 +337,13 @@ This bundle accesses the file system via the `glob()` function. It won't work ou
 
 Syncing files back and forth to follow the editId pattern might not be agreeable if your attachments are very large. In that case, don't use the editId pattern. One alternative is to create objects immediately in the database and not show them in the list view until you mark them live. This way your edit action can use the permanent id of the object as part of the `folder` option, and nothing has to be synced. In this scenario you should probably move the attachments list below the form to hint to the user that there is no such thing as "cancelling" those actions.
 
+TODO : Add all jquery options.
+
 Notes
 =====
 
 The uploader has been styled using Bootstrap conventions. If you have Bootstrap in your project, the uploader should look reasonably pretty out of the box.
 
 The "Choose Files" button allows multiple select as well as drag and drop.
+
+
