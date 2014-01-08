@@ -1,5 +1,5 @@
 {
-	"name": "brossdu/symfony2-file-uploader-bundle",
+	"name": "punkave/symfony2-file-uploader-bundle",
 	"type": "symfony-bundle",
 	"description": "Multiple file uploads for Symfony2 with the BlueImp uploader. Also scales uploaded images",
 	"keywords": ["upload", "file", "multiple file upload", "uploader", "blueimp", "symfony", "symfony bundle", "bundle", "punkave", "image transform", "symfony-2.0", "symfony-2.1"],
@@ -25,9 +25,9 @@
 		"symfony/framework-bundle": "2.*"
 	},
 	"autoload": {
-		"psr-0": { "Brossdu\\FileUploaderBundle": "" }
+		"psr-0": { "PunkAve\\FileUploaderBundle": "" }
 	},
-	"target-dir": "Brossdu/FileUploaderBundle",
+	"target-dir": "PunkAve/FileUploaderBundle",
 	"minimum-stability": "dev",
     "extra": {
         "branch-alias": {
