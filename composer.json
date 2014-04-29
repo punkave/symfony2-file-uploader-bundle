@@ -20,9 +20,9 @@
 		"symfony/framework-bundle": "2.*"
 	},
 	"autoload": {
-		"psr-0": { "kyto-gmbh\\FileUploaderBundle": "" }
+		"psr-0": { "PunkAve\\FileUploaderBundle": "" }
 	},
-	"target-dir": "kyto-gmbh/FileUploaderBundle",
+	"target-dir": "PunkAve/FileUploaderBundle",
 	"minimum-stability": "dev",
     "extra": {
         "branch-alias": {
