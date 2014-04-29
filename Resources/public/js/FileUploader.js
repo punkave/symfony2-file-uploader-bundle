@@ -106,6 +106,9 @@ function PunkAveFileUploader(options)
         success: function() {
           file.remove();
         },
+        error: function() {
+          console.log('testing error output');
+        },
         dataType: 'json'
       });
       return false;
