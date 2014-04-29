@@ -107,7 +107,9 @@ function PunkAveFileUploader(options)
           file.remove();
         },
         error: function ( xhr , msg, optional ) {
-          console.log('error', msg, optional);
+          if ( optional == 'Locked') {
+            file.append('<div>This image can not be deleted, it is still in use in some document!</div>');
+          }
         },
         dataType: 'json'
       });
