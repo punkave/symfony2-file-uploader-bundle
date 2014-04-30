@@ -108,8 +108,7 @@ function PunkAveFileUploader(options)
         },
         error: function ( xhr , msg, optional ) {
           if ( optional == 'Locked') {
-            file.append('<div id="error-image-used" style="display:none;position:absolute;color:red;background-color:white">This image can not be deleted, it is still in use in some document!</div>');
-            $("#error-image-used").show().delay(3000).fadeOut();
+            file.find(".error-image-used").show().delay(3000).fadeOut();
           }
         },
         dataType: 'json'
