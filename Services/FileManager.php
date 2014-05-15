@@ -32,7 +32,7 @@ class FileManager
             if (!is_array($dirs)) {
                 $dirs = array();
             }
-            $result = array_map(function($s) { return basename($s); }, $dirs);
+            $result = array_map(function($s) { return preg_replace('|^.+[\\/]|', '', $s); }, $dirs);
             return $result;
         }
         else
