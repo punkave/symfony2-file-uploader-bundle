@@ -106,6 +106,7 @@ function PunkAveFileUploader(options)
     dataType: 'json',
     url: uploadUrl,
     dropZone: $el.find('[data-dropzone="1"]'),
+    sequentialUploads: (options.sequentialUploads),
     done: function (e, data) {
       if (data)
       {
