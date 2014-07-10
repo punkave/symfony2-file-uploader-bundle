@@ -111,11 +111,11 @@ class FileManager
             $result = null;
             if (isset($options['preserve_to_files']) && $options['preserve_to_files'])
             {
-                system("rsync -a" . escapeshellarg($from . '/') . " " . escapeshellarg($to), $result);
+                system(sprintf("rsync -rpgo %s/ %s", escapeshellarg($from . '/'), escapeshellarg($to)), $result);
             }
             else
             {
-                system("rsync -a --delete " . escapeshellarg($from . '/') . " " . escapeshellarg($to), $result);
+                system(sprintf("rsync -rpgo --delete %s/ %s", escapeshellarg($from . '/'), escapeshellarg($to)), $result);
             }
             if ($result !== 0)
             {
