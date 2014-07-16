@@ -1,6 +1,10 @@
 PunkAveFileUploaderBundle
 =========================
 
+# Maintainer Needed!
+
+This bundle is no longer actively updated. It is maintained for bugs affecting use with Symfony 2.0.x only. If you are interested in taking over maintenance of this bundle, please contact [tom@punkave.com](mailto:tom@punkave.com). Thanks!
+
 Introduction
 ============
 
