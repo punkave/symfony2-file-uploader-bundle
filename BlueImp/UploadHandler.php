@@ -116,6 +116,24 @@ class UploadHandler
     protected function create_scaled_image($file_name, $options) {
         $file_path = $this->options['upload_dir'].$file_name;
         $new_file_path = $options['upload_dir'].$file_name;
+        
+        // Special PSD & AI case
+        $file_ext = strtolower(substr(strrchr($file_name, '.'), 1));
+        switch ($file_ext) {
+            case 'ai':
+            case 'psd': 
+            case 'pdf':
+                $im = new \Imagick($file_path);
+                $im->flattenImages();
+                $im->setImageFormat('png');
+                $file_name .= '.png';
+                $file_path .= '.png';
+                $new_file_path .= '.png';
+                $im->writeImage($file_path);
+                break;
+            
+        }
+        
         list($img_width, $img_height) = @getimagesize($file_path);
         if (!$img_width || !$img_height) {
             return false;
@@ -329,10 +347,15 @@ class UploadHandler
             	}
                 $file->url = $this->options['upload_url'].rawurlencode($file->name);
                 foreach($this->options['image_versions'] as $version => $options) {
+                    $thumbnail_ext = '';
                     if ($this->create_scaled_image($file->name, $options)) {
                         if ($this->options['upload_dir'] !== $options['upload_dir']) {
-                            $file->{$version.'_url'} = $options['upload_url']
-                                .rawurlencode($file->name);
+                            $file_ext = strtolower(substr(strrchr($file->name, '.'), 1));
+                            if($file_ext == 'ai' || $file_ext == 'psd' || $file_ext == 'png') {
+                                $thumbnail_ext = '.png';
+                            }
+                            
+                            $file->{$version.'_url'} = $options['upload_url'].rawurlencode($file->name).$thumbnail_ext;
                         } else {
                             clearstatcache();
                             $file_size = filesize($file_path);
