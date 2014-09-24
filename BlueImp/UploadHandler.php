@@ -117,25 +117,27 @@ class UploadHandler
         $file_path = $this->options['upload_dir'].$file_name;
         $new_file_path = $options['upload_dir'].$file_name;
         
-        // Special PSD & AI case
-        $file_ext = strtolower(substr(strrchr($file_name, '.'), 1));
-        switch ($file_ext) {
-            case 'ai':
-            case 'psd': 
-            case 'pdf':
-                try {
-                    $im = new \Imagick($file_path);
-                    $im->flattenImages();
-                    $im->setImageFormat('png');
-                    $file_name .= '.png';
-                    $file_path .= '.png';
-                    $new_file_path .= '.png';
-                    $im->writeImage($file_path);
-                } catch (\ImagickException $e) {
-                    return false;                  
-                }
-                break;
-            
+        if (extension_loaded('imagick')) {
+            // Special PSD & AI case
+            $file_ext = strtolower(substr(strrchr($file_name, '.'), 1));
+            switch ($file_ext) {
+                case 'ai':
+                case 'psd': 
+                case 'pdf':
+                    try {
+                        $im = new \Imagick($file_path);
+                        $im->flattenImages();
+                        $im->setImageFormat('png');
+                        $file_name .= '.png';
+                        $file_path .= '.png';
+                        $new_file_path .= '.png';
+                        $im->writeImage($file_path);
+                    } catch (\ImagickException $e) {
+                        return false;                  
+                    }
+                    break;
+                
+            }
         }
         
         list($img_width, $img_height) = @getimagesize($file_path);
