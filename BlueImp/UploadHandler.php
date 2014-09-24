@@ -123,13 +123,17 @@ class UploadHandler
             case 'ai':
             case 'psd': 
             case 'pdf':
-                $im = new \Imagick($file_path);
-                $im->flattenImages();
-                $im->setImageFormat('png');
-                $file_name .= '.png';
-                $file_path .= '.png';
-                $new_file_path .= '.png';
-                $im->writeImage($file_path);
+                try {
+                    $im = new \Imagick($file_path);
+                    $im->flattenImages();
+                    $im->setImageFormat('png');
+                    $file_name .= '.png';
+                    $file_path .= '.png';
+                    $new_file_path .= '.png';
+                    $im->writeImage($file_path);
+                } catch (\ImagickException $e) {
+                    return false;                  
+                }
                 break;
             
         }
