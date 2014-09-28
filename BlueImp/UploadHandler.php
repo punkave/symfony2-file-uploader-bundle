@@ -357,7 +357,7 @@ class UploadHandler
                     if ($this->create_scaled_image($file->name, $options)) {
                         if ($this->options['upload_dir'] !== $options['upload_dir']) {
                             $file_ext = strtolower(substr(strrchr($file->name, '.'), 1));
-                            if($file_ext == 'ai' || $file_ext == 'psd' || $file_ext == 'png') {
+                            if($file_ext == 'ai' || $file_ext == 'psd' || $file_ext == 'pdf') {
                                 $thumbnail_ext = '.png';
                             }
                             
