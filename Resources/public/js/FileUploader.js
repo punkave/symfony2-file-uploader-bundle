@@ -52,7 +52,7 @@ function PunkAveFileUploader(options)
         attempt();
         return false;
     });
-  }
+  };
 
   if (options.blockFormWhileUploading)
   {

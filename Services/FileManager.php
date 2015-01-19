@@ -79,21 +79,20 @@ class FileManager
     public function syncFiles($options = array())
     {
         $options = array_merge($this->options, $options);
-
         // We're syncing and potentially deleting folders, so make sure
         // we were passed something - make it a little harder to accidentally
         // trash your site
         if (!strlen(trim($options['file_base_path'])))
         {
-            throw \Exception("file_base_path option looks empty, bailing out");
+            throw new \Exception("file_base_path option looks empty, bailing out");
         }
         if (!strlen(trim($options['from_folder'])))
         {
-            throw \Exception("from_folder option looks empty, bailing out");
+            throw new \Exception("from_folder option looks empty, bailing out");
         }
         if (!strlen(trim($options['to_folder'])))
         {
-            throw \Exception("to_folder option looks empty, bailing out");
+            throw new \Exception("to_folder option looks empty, bailing out");
         }
 
         $from = $options['file_base_path'] . '/' . $options['from_folder'];
