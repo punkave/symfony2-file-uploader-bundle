@@ -111,7 +111,7 @@ class FileManager
             system("rsync -a --delete " . escapeshellarg($from . '/') . " " . escapeshellarg($to), $result);
             if ($result !== 0)
             {
-                throw new \Exception("Sync failed");
+                throw new \Exception("Sync failed with errorcode '$result'!");
             }
             if (isset($options['remove_from_folder']) && $options['remove_from_folder'])
             {
