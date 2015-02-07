@@ -177,7 +177,7 @@ Let's assume there is an edit.html.twig template associated with the edit action
     $(function() {
         new PunkAveFileUploader({
             'uploadUrl': {{ path('upload', { editId: editId }) | json_encode | raw }},
-            'viewUrl': {{ '/uploads/tmp/attachments/' ~ editId | json_encode | raw }},
+            'viewUrl': {{ ('/uploads/tmp/attachments/' ~ editId) | json_encode | raw }},
             'el': '.file-uploader',
             'existingFiles': {{ punkave_get_files('tmp/attachments/' ~ editId) | json_encode | raw }},
             'delaySubmitWhileUploading': '.edit-form'
