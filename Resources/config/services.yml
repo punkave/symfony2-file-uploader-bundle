@@ -1,5 +1,6 @@
 parameters:
   file_uploader.max_number_of_files: ~
+  file_uploader.max_file_size: ~
   file_uploader.file_base_path: "%kernel.root_dir%/../web/uploads"
   file_uploader.web_base_path: "/uploads"
   file_uploader.allowed_extensions:
@@ -73,6 +74,7 @@ services:
             sizes: '%file_uploader.sizes%'
             originals: '%file_uploader.originals%'
             max_number_of_files: '%file_uploader.max_number_of_files%'
+            max_file_size: '%file_uploader.max_file_size%'
         scope: request
 
     # You usually won't need this sub-service directly,
