@@ -17,7 +17,13 @@ class UploadHandler
 {
     protected $options;
 
-    function __construct($options=null) {
+    function __construct($options=null)
+    {
+        $this->setOptions($options);
+    }
+
+    function setOptions($options=null)
+    {
         $this->options = array(
             'script_url' => $this->getFullUrl().'/',
             'upload_dir' => dirname($_SERVER['SCRIPT_FILENAME']).'/files/',
@@ -66,7 +72,8 @@ class UploadHandler
                 'ai',
                 'psd',
                 'pdf',
-                'eps')
+                'eps'),
+            'override_files' => false
         );
         if ($options) {
             $this->options = array_replace_recursive($this->options, $options);
@@ -121,7 +128,7 @@ class UploadHandler
     protected function create_scaled_image($file_name, $options) {
         $file_path = $this->options['upload_dir'].$file_name;
         $new_file_path = $options['upload_dir'].$file_name;
-        
+
         if (extension_loaded('imagick')) {
             // Special Postscript case
             if($this->is_ps_file($file_name)) {
@@ -134,11 +141,11 @@ class UploadHandler
                     $new_file_path .= '.png';
                     $im->writeImage($file_path);
                 } catch (\ImagickException $e) {
-                    return false;                  
+                    return false;
                 }
             }
         }
-        
+
         list($img_width, $img_height) = @getimagesize($file_path);
         if (!$img_width || !$img_height) {
             return false;
@@ -275,8 +282,10 @@ class UploadHandler
             $file_name .= '.'.$matches[1];
         }
         if ($this->options['discard_aborted_uploads']) {
-            while(is_file($this->options['upload_dir'].$file_name)) {
-                $file_name = $this->upcount_name($file_name);
+            if (!$this->options['override_files']) {
+                while(is_file($this->options['upload_dir'].$file_name)) {
+                    $file_name = $this->upcount_name($file_name);
+                }
             }
         }
         return $file_name;
@@ -292,7 +301,7 @@ class UploadHandler
             return false;
         }
       	$orientation = intval(@$exif['Orientation']);
-      	if (!in_array($orientation, array(3, 6, 8))) { 
+      	if (!in_array($orientation, array(3, 6, 8))) {
       	    return false;
       	}
       	$image = @imagecreatefromjpeg($file_path);
@@ -353,7 +362,7 @@ class UploadHandler
                 $file->url = $this->options['upload_url'].rawurlencode($file->name);
                 foreach($this->options['image_versions'] as $version => $options) {
                     if ($this->create_scaled_image($file->name, $options)) {
-                        if ($this->options['upload_dir'] !== $options['upload_dir']) {                            
+                        if ($this->options['upload_dir'] !== $options['upload_dir']) {
                             $file->{$version.'_url'} = $this->add_png_to_ps_extension($options['upload_url'].rawurlencode($file->name));
                         } else {
                             clearstatcache();
@@ -471,7 +480,7 @@ class UploadHandler
         }
         return $filename.$thumbnail_ext;
     }
-    
+
     public function is_ps_file($filename)  {
         $file_ext = strtolower(substr(strrchr($filename, '.'), 1));
         if(in_array($file_ext, $this->options['ps_file_extensions']))
