@@ -433,6 +433,10 @@ class UploadHandler
             );
         }
         header('Vary: Accept');
+        foreach ($info as $key => $item) {
+            $info[$key]->filePath = substr($item->url, strlen($this->options['webpath']));
+            $info[$key]->filePath = preg_replace('/(.)\\1/','$1',$info[$key]->filePath);
+        }
         $json = json_encode($info);
         $redirect = isset($_REQUEST['redirect']) ?
             stripslashes($_REQUEST['redirect']) : null;

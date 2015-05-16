@@ -110,6 +110,7 @@ class FileUploader
             array(
                 'upload_dir' => $uploadDir,
                 'upload_url' => $webPath . '/' . $originals['folder'] . '/',
+                'webpath' => $options['web_base_path'],
                 'script_url' => $options['request']->getUri(),
                 'image_versions' => $sizes,
                 'accept_file_types' => $allowedExtensionsRegex,
