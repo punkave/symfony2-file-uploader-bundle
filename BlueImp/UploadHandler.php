@@ -246,6 +246,13 @@ class UploadHandler
         // into different directories or replacing hidden system files.
         // Also remove control characters and spaces (\x00..\x20) around the filename:
         $file_name = trim(basename(stripslashes($name)), ".\x00..\x20");
+        $file_name = str_replace("ä", "ae", $file_name);
+        $file_name = str_replace("ö", "oe", $file_name);
+        $file_name = str_replace("ü", "ue", $file_name);
+        $file_name = str_replace("ß", "ss", $file_name);
+        //remove all special characters
+        $file_name = iconv("utf-8", "ascii//TRANSLIT//IGNORE", $file_name);
+
         // Add missing file extension for known image types:
         if (strpos($file_name, '.') === false &&
             preg_match('/^image\/(gif|jpe?g|png)/', $type, $matches)) {
@@ -269,7 +276,7 @@ class UploadHandler
             return false;
         }
       	$orientation = intval(@$exif['Orientation']);
-      	if (!in_array($orientation, array(3, 6, 8))) { 
+      	if (!in_array($orientation, array(3, 6, 8))) {
       	    return false;
       	}
       	$image = @imagecreatefromjpeg($file_path);
