@@ -89,6 +89,6 @@ services:
 
     punk_ave.twig.file_extension:
         class: PunkAve\FileUploaderBundle\Twig\FileExtension
-        arguments: [@service_container]
+        arguments: ['@service_container']
         tags:
             - { name: twig.extension }
