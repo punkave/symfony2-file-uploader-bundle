@@ -62,9 +62,15 @@ parameters:
       max_width: 1140
       max_height: 1140
 
+  file_uploader.punk_ave_upload_handler.class: PunkAve\FileUploaderBundle\BlueImp\UploadHandler
+  file_uploader.punk_ave_file_uploader.class: PunkAve\FileUploaderBundle\Services\FileUploader
+
 services:
+    punk_ave.upload_handler:
+        class: %file_uploader.punk_ave_upload_handler.class%
+
     punk_ave.file_uploader:
-        class: PunkAve\FileUploaderBundle\Services\FileUploader
+        class: %file_uploader.punk_ave_file_uploader.class%
         arguments:
           - file_base_path: '%file_uploader.file_base_path%'
             web_base_path: '%file_uploader.web_base_path%'
@@ -75,6 +81,7 @@ services:
             originals: '%file_uploader.originals%'
             max_number_of_files: '%file_uploader.max_number_of_files%'
             max_file_size: '%file_uploader.max_file_size%'
+          - @punk_ave.upload_handler
         scope: request
 
     # You usually won't need this sub-service directly,
@@ -92,3 +99,4 @@ services:
         arguments: ['@service_container']
         tags:
             - { name: twig.extension }
+
