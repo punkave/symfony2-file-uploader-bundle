@@ -108,7 +108,14 @@ class FileManager
                 throw new \Exception("to_folder does not exist");
             }
             $result = null;
-            system("rsync -a --delete " . escapeshellarg($from . '/') . " " . escapeshellarg($to), $result);
+            if (isset($options['preserve_to_files']) && $options['preserve_to_files'])
+            {
+                system(sprintf("rsync -rpgo %s/ %s", escapeshellarg($from . '/'), escapeshellarg($to)), $result);
+            }
+            else
+            {
+                system(sprintf("rsync -rpgo --delete %s/ %s", escapeshellarg($from . '/'), escapeshellarg($to)), $result);
+            }
             if ($result !== 0)
             {
                 throw new \Exception("Sync failed with errorcode '$result'!");
