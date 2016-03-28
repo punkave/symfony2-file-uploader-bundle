@@ -86,6 +86,7 @@ services:
         arguments:
           # For bc reasons we're not changing the names of the parameters
           - file_base_path: '%file_uploader.file_base_path%'
+            originals: '%file_uploader.originals%'
 
     punk_ave.twig.file_extension:
         class: PunkAve\FileUploaderBundle\Twig\FileExtension

@@ -12,7 +12,7 @@ class FileManager
     }
 
     /**
-     * Get a list of files already present. The 'folder' option is required. 
+     * Get a list of files already present. The 'folder' option is required.
      * If you pass consistent options to this method and handleFileUpload with
      * regard to paths, then you will get consistent results.
      */
@@ -20,10 +20,12 @@ class FileManager
     {
         $options = array_merge($this->options, $options);
 
+        $originals = $options['originals'];
+
         $folder = $options['file_base_path'] . '/' . $options['folder'];
         if (file_exists($folder))
         {
-            $dirs = glob("$folder/originals/*");
+            $dirs = glob($folder . '/' . $originals['folder'] . '/*');
             $fullPath = isset($options['full_path']) ? $options['full_path'] : false;
             if ($fullPath)
             {
@@ -68,11 +70,11 @@ class FileManager
     /**
      * Sync existing files from one folder to another. The 'fromFolder' and 'toFolder'
      * options are required. As with the 'folder' option elsewhere, these are appended
-     * to the file_base_path for you, missing parent folders are created, etc. If 
+     * to the file_base_path for you, missing parent folders are created, etc. If
      * 'fromFolder' does not exist no error is reported as this is common if no files
      * have been uploaded. If there are files and the sync reports errors an exception
      * is thrown.
-     * 
+     *
      * If you pass consistent options to this method and handleFileUpload with
      * regard to paths, then you will get consistent results.
      */

@@ -3,6 +3,7 @@ function PunkAveFileUploader(options)
   var self = this,
     uploadUrl = options.uploadUrl,
     viewUrl = options.viewUrl,
+    originalsDir = options.originalsDir || 'originals',
     $el = $(options.el),
     uploaderTemplate = _.template($.trim($('#file-uploader-template').html()));
   $el.html(uploaderTemplate({}));
@@ -10,9 +11,9 @@ function PunkAveFileUploader(options)
   var fileTemplate = _.template($.trim($('#file-uploader-file-template').html())),
     editor = $el.find('[data-files="1"]'),
     thumbnails = $el.find('[data-thumbnails="1"]');
-  
+
   self.uploading = false;
-  
+
   self.errorCallback = 'errorCallback' in options ? options.errorCallback : function( info ) { if (window.console && console.log) { console.log(info) } },
 
   self.addExistingFiles = function(files)
@@ -21,7 +22,7 @@ function PunkAveFileUploader(options)
       appendEditableImage({
         // cmsMediaUrl is a global variable set by the underscoreTemplates partial of MediaItems.html.twig
         'thumbnail_url': viewUrl + '/thumbnails/' + file,
-        'url': viewUrl + '/originals/' + file,
+        'url': viewUrl + '/' + originalsDir  + '/' + file,
         'name': file
         });
     });
@@ -157,7 +158,7 @@ function PunkAveFileUploader(options)
     var newAdditionalURL = "";
     var tempArray = url.split("?");
     var baseURL = tempArray[0];
-    var additionalURL = tempArray[1]; 
+    var additionalURL = tempArray[1];
     var temp = "";
     if (additionalURL)
     {
