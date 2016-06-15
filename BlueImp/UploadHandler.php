@@ -296,7 +296,7 @@ class UploadHandler
     }
 
     /**
-     * Returns an array with the dotted allowed extensions plus no extension. e.g. ['.jpeg', '.png', '']
+     * Returns an array with the dotted allowed extensions. e.g. ['.jpeg', '.png']
      *
      * @param string $acceptedFileTypesRegex
      * @return array
@@ -305,7 +305,6 @@ class UploadHandler
     {
         preg_match_all('(\.[a-z]+)', $acceptedFileTypesRegex, $matches);
         $extensions = $matches[0];
-        $extensions[] = '';
 
         return $extensions;
     }
