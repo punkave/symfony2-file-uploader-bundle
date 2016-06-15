@@ -44,6 +44,10 @@ class UploadHandlerTest extends \PHPUnit_Framework_TestCase
 
         $result = $uploadHandler->is_basename_existing_wrapper($dir, 'I-do-not-exist.jpg', $regex);
         $this->assertFalse($result);
+
+        $regex = '/(\.pdf)$/i';
+        $result = $uploadHandler->is_basename_existing_wrapper($dir, 'test.jpg', $regex);
+        $this->assertFalse($result);
     }
 
     /**
