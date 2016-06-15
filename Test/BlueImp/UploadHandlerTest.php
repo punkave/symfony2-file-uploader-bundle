@@ -12,7 +12,6 @@ use PunkAve\FileUploaderBundle\BlueImp\UploadHandler;
  */
 class UploadHandlerTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      *
      */
@@ -29,6 +28,22 @@ class UploadHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('.png', $extensions[3]);
         $this->assertEquals('.pdf', $extensions[4]);
         $this->assertEquals('', $extensions[5]);
+    }
+
+    /**
+     *
+     */
+    public function testIsBasenameExisting()
+    {
+        $regex = '/(\.jpg|\.jpeg|\.gif|\.png|\.pdf)$/i';
+        $dir = __DIR__ . '/../upload-dir/';
+        $uploadHandler = new UploadHandlerMock();
+
+        $result = $uploadHandler->is_basename_existing_wrapper($dir, 'test.png', $regex);
+        $this->assertTrue($result);
+
+        $result = $uploadHandler->is_basename_existing_wrapper($dir, 'I-do-not-exist.jpg', $regex);
+        $this->assertFalse($result);
     }
 
     /**
@@ -65,9 +80,9 @@ class UploadHandlerMock extends UploadHandler
         return $this->get_accepted_extensions_from_options_regex($regex);
     }
 
-    public function is_basename_existing_wrapper()
+    public function is_basename_existing_wrapper($directory, $filename, $regex)
     {
-        return $this->is_basename_existing();
+        return $this->is_basename_existing($directory, $filename, $regex);
     }
 }
 

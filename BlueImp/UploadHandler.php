@@ -265,17 +265,18 @@ class UploadHandler
             preg_match('/^image\/(gif|jpe?g|png)/', $type, $matches)) {
             $file_name .= '.'.$matches[1];
         }
+        $acceptedFileTypesRegex = $this->options['accept_file_types'];
         if ($this->options['discard_aborted_uploads']) {
-            while($this->is_basename_existing($this->options['upload_dir'], $file_name)) {
+            while($this->is_basename_existing($this->options['upload_dir'], $file_name, $acceptedFileTypesRegex)) {
                 $file_name = $this->upcount_name($file_name);
             }
         }
         return $file_name;
     }
 
-    protected function is_basename_existing($dir, $fileName)
+    protected function is_basename_existing($dir, $fileName, $acceptedFileTypesRegex)
     {
-        $extensions = $this->get_accepted_extensions_from_options_regex($this->options['accept_file_types']);
+        $extensions = $this->get_accepted_extensions_from_options_regex($acceptedFileTypesRegex);
         $pathParts = pathinfo($fileName);
         $nameWithoutExtension = $pathParts['filename'];
         foreach ($extensions as $extension) {
@@ -286,9 +287,9 @@ class UploadHandler
         return false;
     }
 
-    protected function get_accepted_extensions_from_options_regex($regex)
+    protected function get_accepted_extensions_from_options_regex($acceptedFileTypesRegex)
     {
-        preg_match_all('(\.[a-z]+)', $regex, $matches);
+        preg_match_all('(\.[a-z]+)', $acceptedFileTypesRegex, $matches);
         $extensions = $matches[0];
         $extensions[] = '';
 
