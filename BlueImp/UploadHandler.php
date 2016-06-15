@@ -274,6 +274,14 @@ class UploadHandler
         return $file_name;
     }
 
+    /**
+     * Returns true if a file with the same basename exists in the directory for any of the allowed file types.
+     *
+     * @param string $dir
+     * @param string $fileName
+     * @param string $acceptedFileTypesRegex
+     * @return bool
+     */
     protected function is_basename_existing($dir, $fileName, $acceptedFileTypesRegex)
     {
         $extensions = $this->get_accepted_extensions_from_options_regex($acceptedFileTypesRegex);
@@ -287,6 +295,12 @@ class UploadHandler
         return false;
     }
 
+    /**
+     * Returns an array with the dotted allowed extensions plus no extension. e.g. ['.jpeg', '.png', '']
+     *
+     * @param string $acceptedFileTypesRegex
+     * @return array
+     */
     protected function get_accepted_extensions_from_options_regex($acceptedFileTypesRegex)
     {
         preg_match_all('(\.[a-z]+)', $acceptedFileTypesRegex, $matches);
