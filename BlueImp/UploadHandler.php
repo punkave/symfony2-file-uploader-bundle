@@ -266,11 +266,33 @@ class UploadHandler
             $file_name .= '.'.$matches[1];
         }
         if ($this->options['discard_aborted_uploads']) {
-            while(is_file($this->options['upload_dir'].$file_name)) {
+            while($this->is_basename_existing($this->options['upload_dir'], $file_name)) {
                 $file_name = $this->upcount_name($file_name);
             }
         }
         return $file_name;
+    }
+
+    protected function is_basename_existing($dir, $fileName)
+    {
+        $extensions = $this->get_accepted_extensions_from_options_regex($this->options['accept_file_types']);
+        $pathParts = pathinfo($fileName);
+        $nameWithoutExtension = $pathParts['filename'];
+        foreach ($extensions as $extension) {
+            if (is_file($dir . $nameWithoutExtension . $extension)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    protected function get_accepted_extensions_from_options_regex($regex)
+    {
+        preg_match_all('(\.[a-z]+)', $regex, $matches);
+        $extensions = $matches[0];
+        $extensions[] = '';
+
+        return $extensions;
     }
 
     protected function handle_form_data($file, $index) {
