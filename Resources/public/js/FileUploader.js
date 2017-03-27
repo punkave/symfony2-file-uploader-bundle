@@ -21,7 +21,7 @@ function PunkAveFileUploader(options)
       appendEditableImage({
         // cmsMediaUrl is a global variable set by the underscoreTemplates partial of MediaItems.html.twig
         'thumbnail_url': viewUrl + '/thumbnails/' + encodeURIComponent(file),
-        'url': viewUrl + '/originals/' + file,
+        'url': viewUrl + '/originals/' + encodeURIComponent(file),
         'name': file
         });
     });
