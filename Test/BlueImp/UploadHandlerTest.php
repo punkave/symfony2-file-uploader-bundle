@@ -69,7 +69,7 @@ class UploadHandlerTest extends \PHPUnit_Framework_TestCase
         $method = $uploadHandlerReflection->getMethod('trim_file_name');
         $method->setAccessible(true);
         $result = $method->invokeArgs($uploadHandler, ['../Ääüö.jpg', 'jpg', null]);
-        $this->assertEquals('Aeaeueoe.jpg', $result);
+        $this->assertEquals('Ääüö.jpg', $result);
     }
 
 }

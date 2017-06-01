@@ -19,6 +19,8 @@ class FileManager
     public function getFiles($options = array())
     {
         $options = array_merge($this->options, $options);
+        $locale = setlocale(LC_ALL, 0);
+        setlocale(LC_ALL, 'en_US.utf8');
 
         $folder = $options['file_base_path'] . '/' . $options['folder'];
         if (file_exists($folder))
@@ -33,12 +35,14 @@ class FileManager
                 $dirs = array();
             }
             $result = array_map(function($s) { return basename($s); }, $dirs);
-            return $result;
         }
         else
         {
-            return array();
+            $result = array();
         }
+        setlocale(LC_ALL, $locale);
+
+        return $result;
     }
 
     /**

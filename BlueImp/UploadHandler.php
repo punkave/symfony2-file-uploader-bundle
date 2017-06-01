@@ -248,17 +248,9 @@ class UploadHandler
         // into different directories or replacing hidden system files.
         // Also remove control characters and spaces (\x00..\x20) around the filename:
 
-        //remove all special characters
-        $file_name = str_replace("ä", "ae", $file_name);
-        $file_name = str_replace("Ä", "Ae", $file_name);
-        $file_name = str_replace("ö", "oe", $file_name);
-        $file_name = str_replace("Ö", "Oe", $file_name);
-        $file_name = str_replace("ü", "ue", $file_name);
-        $file_name = str_replace("Ü", "Ue", $file_name);
-        $file_name = str_replace("ß", "ss", $file_name);
-
+        $locale = setlocale(LC_ALL, 0);
+        setlocale(LC_ALL, 'en_US.utf8');
         $file_name = trim(basename(stripslashes($file_name)), ".\x00..\x20");
-        $file_name = iconv("UTF-8", "ascii//TRANSLIT//IGNORE", $file_name);
 
         // Add missing file extension for known image types:
         if (strpos($file_name, '.') === false &&
@@ -271,6 +263,8 @@ class UploadHandler
                 $file_name = $this->upcount_name($file_name);
             }
         }
+        setlocale(LC_ALL, $locale);
+
         return $file_name;
     }
 
