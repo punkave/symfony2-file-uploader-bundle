@@ -257,50 +257,15 @@ class UploadHandler
             preg_match('/^image\/(gif|jpe?g|png)/', $type, $matches)) {
             $file_name .= '.'.$matches[1];
         }
-        $acceptedFileTypesRegex = $this->options['accept_file_types'];
+
         if ($this->options['discard_aborted_uploads']) {
-            while($this->is_basename_existing($this->options['upload_dir'], $file_name, $acceptedFileTypesRegex)) {
+            while (is_file($this->options['upload_dir'] . $file_name)) {
                 $file_name = $this->upcount_name($file_name);
             }
         }
         setlocale(LC_ALL, $locale);
 
         return $file_name;
-    }
-
-    /**
-     * Returns true if a file with the same basename exists in the directory for any of the allowed file types.
-     *
-     * @param string $dir
-     * @param string $fileName
-     * @param string $acceptedFileTypesRegex
-     * @return bool
-     */
-    protected function is_basename_existing($dir, $fileName, $acceptedFileTypesRegex)
-    {
-        $extensions = $this->get_accepted_extensions_from_options_regex($acceptedFileTypesRegex);
-        $pathParts = pathinfo($fileName);
-        $nameWithoutExtension = $pathParts['filename'];
-        foreach ($extensions as $extension) {
-            if (is_file($dir . $nameWithoutExtension . $extension)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Returns an array with the dotted allowed extensions. e.g. ['.jpeg', '.png']
-     *
-     * @param string $acceptedFileTypesRegex
-     * @return array
-     */
-    protected function get_accepted_extensions_from_options_regex($acceptedFileTypesRegex)
-    {
-        preg_match_all('(\.[a-z]+)', $acceptedFileTypesRegex, $matches);
-        $extensions = $matches[0];
-
-        return $extensions;
     }
 
     protected function handle_form_data($file, $index) {
